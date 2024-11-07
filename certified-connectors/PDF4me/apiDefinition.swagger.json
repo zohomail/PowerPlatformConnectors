@@ -10,7 +10,7 @@
     },
     "description": "PDF4me gives you all functionalities around PDF, e.g. convert, merge, split, make PDF/A compatible, optimize, protect, unlock, do OCR, create watermarks, create images, rotate PDF, attach barcodes.",
     "title": "PDF4me",
-    "version": "6.6"
+    "version": "6.7"
   },
   "parameters": {},
   "paths": {
@@ -3262,7 +3262,28 @@
         "description": "Response from Webhook"
       },
       "post": {
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "Completed successfully!",
+            "schema": {
+              "type": "string",
+              "description": "Output file content from the PDF4me API response.",
+              "title": "File Content",
+              "format": "binary",
+              "x-ms-visibility": "important"
+            },
+            "headers": {
+              "FileName": {
+                "description": "File Name",
+                "type": "string"
+              },
+              "PageCount": {
+                "description": "Page Count",
+                "type": "string"
+              }
+            }
+          }
+        },
         "summary": "Get Document from PDF4me",
         "description": "Triggers when a document is sent from PDF4me apps.",
         "operationId": "Get-Document-From-PDF4me",
@@ -6842,6 +6863,248 @@
         "x-ms-visibility": "important"
       }
     },
+    "/v2/FlowV2/CreateEpcQrCode": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Generate EPC QR Code for SEPA Payment. https://dev.pdf4me.com/power-automate/documentation/actions/create-epc-qrcode/",
+        "operationId": "CreateEpcQrCode_V1",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "epcQrCodeAction": {
+                  "description": "epcQrCodeAction.",
+                  "properties": {
+                    "serviceTag": {
+                      "type": "string",
+                      "description": "Service Tag.",
+                      "title": "Service Tag",
+                      "x-ms-visibility": "internal",
+                      "default": "BCD",
+                      "enum": [
+                        "BCD"
+                      ]
+                    },
+                    "version": {
+                      "type": "string",
+                      "description": "You can specify the EPC version.",
+                      "title": "Specify EPC version",
+                      "x-ms-visibility": "important",
+                      "default": "V2",
+                      "enum": [
+                        "V1",
+                        "V2"
+                      ]
+                    },
+                    "characterSet": {
+                      "type": "string",
+                      "description": "You can specify the EPC character set.",
+                      "title": "Specify EPC character set",
+                      "x-ms-visibility": "important",
+                      "default": "UTF8",
+                      "enum": [
+                        "UTF8",
+                        "ISO8859_1",
+                        "ISO8859_2",
+                        "ISO8859_4",
+                        "ISO8859_5",
+                        "ISO8859_7",
+                        "ISO8859_10",
+                        "ISO8859_15"
+                      ]
+                    },
+                    "identificationCode": {
+                      "type": "string",
+                      "description": "You can specify the Identification Code.",
+                      "title": "Specify Identification Code",
+                      "x-ms-visibility": "internal",
+                      "default": "SCT",
+                      "enum": [
+                        "SCT"
+                      ]
+                    },
+                    "bic": {
+                      "description": "You can specify beneficiary's BIC. BIC is mandatory only for EPC version V1",
+                      "title": "Beneficiary's BIC",
+                      "type": "string",
+                      "x-ms-visibility": "important"
+                    },
+                    "receiverName": {
+                      "type": "string",
+                      "description": "You can specify receiver / beneficiary name.",
+                      "title": "Name of Beneficiary",
+                      "x-ms-visibility": "important"
+                    },
+                    "iban": {
+                      "type": "string",
+                      "description": "You can specify beneficiary's account (IBAN).",
+                      "title": "Beneficiary's Account (IBAN)",
+                      "x-ms-visibility": "important"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "description": "Currency.",
+                      "title": "Currency",
+                      "x-ms-visibility": "internal",
+                      "default": "EUR",
+                      "enum": [
+                        "EUR"
+                      ]
+                    },
+                    "amount": {
+                      "format": "float",
+                      "type": "number",
+                      "description": "You can specify the amount (EUR) of transaction.",
+                      "title": "Amount (EUR)",
+                      "x-ms-visibility": "important"
+                    },
+                    "purpose": {
+                      "type": "string",
+                      "description": "You can specify the business code / purpose.",
+                      "title": "Business Code",
+                      "x-ms-visibility": "important"
+                    },
+                    "remittanceReference": {
+                      "type": "string",
+                      "description": "You can specify payment / remittance reference.",
+                      "title": "Payment Reference",
+                      "x-ms-visibility": "important"
+                    },
+                    "remittanceText": {
+                      "type": "string",
+                      "description": "You can specify remittance information.",
+                      "title": "Remittance Information",
+                      "x-ms-visibility": "important"
+                    },
+                    "information": {
+                      "type": "string",
+                      "description": "Information.",
+                      "title": "Hint Text",
+                      "x-ms-visibility": "important"
+                    }
+                  },
+                  "required": [
+                    "serviceTag",
+                    "version",
+                    "identificationCode",
+                    "currency",
+                    "amount",
+                    "receiverName",
+                    "iban"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "epcQrCodeAction"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Completed successfully!",
+            "headers": {
+              "FileName": {
+                "description": "File Name",
+                "type": "string"
+              },
+              "PageCount": {
+                "description": "Page Count",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "description": "Output file content from the PDF4me Connect",
+              "format": "binary",
+              "title": "File Content",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          }
+        },
+        "summary": "Generate EPC QR Code for SEPA Payment",
+        "x-ms-visibility": "important",
+        "x-ms-api-annotation": {
+          "family": "CreateEpcQrCode",
+          "revision": 1,
+          "status": "Production"
+        }
+      }
+    },
+    "/v2/FlowV2/PrepareForPrint": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Prepare a PDF for print through resizing, colour profile etc - https://dev.pdf4me.com/power-automate/documentation/actions/prepare-for-print",
+        "summary": "Prepare for Print",
+        "operationId": "PrepareForPrint_v1",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "schemaVal",
+            "x-ms-summary": "Paper Size",
+            "default": "A4",
+            "description": "You can specify the paper size",
+            "type": "string",
+            "x-ms-visibility": "important",
+            "enum": [
+              "Default",
+              "A0",
+              "A1",
+              "A2",
+              "A3",
+              "A4",
+              "A5",
+              "A6",
+              "B5",
+              "PageLetter",
+              "PageLegal",
+              "PageLedger",
+              "P11x17",
+              "Custom"
+            ]
+          },
+          {
+            "in": "body",
+            "name": "operation",
+            "schema": {
+              "$ref": "#/definitions/DtoPrepareForPrint"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Completed successfully!",
+            "headers": {
+              "FileName": {
+                "description": "File Name",
+                "type": "string"
+              },
+              "PageCount": {
+                "description": "Page Count",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "description": "Output file content from the PDF4me API response",
+              "format": "binary",
+              "title": "File Content",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          }
+        },
+        "x-ms-visibility": "important"
+      }
+    },
     "/v2/FlowV2/GetCallStatus": {
       "get": {
         "responses": {
@@ -7098,6 +7361,41 @@
         "x-ms-visibility": "internal"
       }
     },
+    "/v2/FlowDynamicSchema/GetSchemaPrepareForPrint": {
+      "get": {
+        "description": "Event details fields from the selection made.",
+        "summary": "Get Schema For Prepare For Print",
+        "operationId": "GetSchemaPrepareForPrint_v1",
+        "parameters": [
+          {
+            "name": "schemaType",
+            "type": "string",
+            "in": "query",
+            "description": "schemaType",
+            "required": true,
+            "default": "flowschemaprepareforprint",
+            "x-ms-url-encoding": "single",
+            "x-ms-summary": "schemaType"
+          },
+          {
+            "name": "schemaVal",
+            "type": "string",
+            "in": "query",
+            "description": "schemaVal",
+            "required": true,
+            "default": "A4",
+            "x-ms-url-encoding": "single",
+            "x-ms-summary": "schemaVal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
     "/v2/FlowV2/{featurePath}": {
       "post": {
         "responses": {
@@ -7176,6 +7474,19 @@
         "value-path": "flowSchemaResizeImage",
         "parameters": {
           "schemaType": "flowSchemaResizeImage",
+          "schemaVal": {
+            "parameter": "schemaVal"
+          }
+        }
+      }
+    },
+    "DtoPrepareForPrint": {
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetSchemaPrepareForPrint_v1",
+        "value-path": "flowSchemaPrepareForPrint",
+        "parameters": {
+          "schemaType": "flowSchemaPrepareForPrint",
           "schemaVal": {
             "parameter": "schemaVal"
           }
